@@ -1,0 +1,10 @@
+jupyterlab
+sklearn
+numpy
+pandas
+matplotlib
+seaborn
+sklearn
+flask
+tensorflow
+pydot
