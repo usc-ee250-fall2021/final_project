@@ -31,16 +31,27 @@ def get_max_frq(frq, fft):
 
 def decoder(average_frequency, target_note): # parameter types: (int, string)
     freq_range = range_dict[target_note]
+    text_file = open("result.txt", "w")
+
+
     if (average_frequency >= freq_range[0]) and (average_frequency <= freq_range[1]):
         print("You're all set!")
+        text_file.write("You're all set!")
     elif average_frequency < freq_range[0]:
         print("Your frequency is too low, which means you gotta tighten the string")
         print("You're at " + str(average_frequency) + "Hz, you should be in this range: " + str(freq_range[0]) + " to "
+              + str(freq_range[1]) + "Hz.")
+        text_file.write("Your frequency is too low, which means you gotta tighten the string. ")
+        text_file.write("You're at " + str(average_frequency) + "Hz, you should be in this range: " + str(freq_range[0]) + " to "
               + str(freq_range[1]) + "Hz.")
     else:
         print("Your frequency is too high, which means you gotta loosen the string")
         print("You're at " + str(average_frequency) + "Hz, you should be in this range: " + str(freq_range[0]) + " to "
               + str(freq_range[1]) + "Hz.")
+        text_file.write("Your frequency is too high, which means you gotta loosen the string. ")
+        text_file.write("You're at " + str(average_frequency) + "Hz, you should be in this range: " + str(freq_range[0]) + " to "
+              + str(freq_range[1]) + "Hz.")
+    text_file.close()
 
 
 def main(file, target_note):
@@ -108,11 +119,15 @@ def main(file, target_note):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2 or not os.path.isfile('output.wav'): # If the user didn't provide target note or the wav file
-        # is missing, then we cannot execute the program.
-        if len(sys.argv) != 2:
-            print("Usage: decode.py [target note]")
-            exit(1)
-    else:
-        print("Let's see if this audio really is note: " + str(sys.argv[1]))
-        main('output.wav', str(sys.argv[1]))
+    while True:
+        if len(sys.argv) != 2 or not os.path.isfile('output.wav'): # If the user didn't provide target note or the wav file
+            # is missing, then we cannot execute the program.
+            if len(sys.argv) != 2:
+                print("Usage: decode.py [target note]")
+                exit(1)
+
+        else:
+            print("Let's see if this audio really is note: " + str(sys.argv[1]))
+            main('output.wav', str(sys.argv[1]))
+            os.remove("output.wav")
+            exit(0)
